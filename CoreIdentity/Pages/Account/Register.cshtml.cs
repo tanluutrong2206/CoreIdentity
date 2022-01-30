@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+using System.Security.Claims;
+
 namespace CoreIdentity.Pages.Account
 {
     public class RegisterModel : PageModel
@@ -39,9 +41,16 @@ namespace CoreIdentity.Pages.Account
                 Address = RegisterViewModel.Address,
                 IdentityCard = RegisterViewModel.IdentityCard,
             };
+
+            var userClaims = new List<Claim>
+            {
+                new Claim("Address", RegisterViewModel.Address),
+                new Claim("IdentityCard", RegisterViewModel.IdentityCard)
+            };
             var result = await userManager.CreateAsync(user, RegisterViewModel.Password);
             if (result.Succeeded)
             {
+                await userManager.AddClaimsAsync(user, userClaims);
                 var confirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
                 if (confirmationToken != null)
                 {
