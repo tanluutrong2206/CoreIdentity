@@ -17,11 +17,10 @@ namespace CoreIdentity.Pages.Account
         [BindProperty]
         public UserProfileViewModel UserProfileViewModel { get; set; }
         [BindProperty]
-        public string SuccessMessage { get; set; }
+        public string? SuccessMessage { get; set; }
         public UserProfileModel(UserManager<ApplicationUser> userManager)
         {
             this.userManager = userManager;
-            SuccessMessage = string.Empty;
             UserProfileViewModel = new UserProfileViewModel();
         }
         public async Task<IActionResult> OnGetAsync()
