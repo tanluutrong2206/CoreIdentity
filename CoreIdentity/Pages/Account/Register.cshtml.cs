@@ -1,8 +1,12 @@
 using CoreIdentity.Models;
+using CoreIdentity.Services;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
+using System.Net;
+using System.Net.Mail;
 
 namespace CoreIdentity.Pages.Account
 {
@@ -12,10 +16,13 @@ namespace CoreIdentity.Pages.Account
 
         [BindProperty]
         public RegisterViewModel RegisterViewModel { get; set; }
-        public RegisterModel(UserManager<IdentityUser> userManager)
+        public IEmailService EmailService { get; }
+
+        public RegisterModel(UserManager<IdentityUser> userManager, IEmailService emailService)
         {
             RegisterViewModel = new RegisterViewModel();
             this.userManager = userManager;
+            EmailService = emailService;
         }
         public void OnGet()
         {
@@ -38,11 +45,15 @@ namespace CoreIdentity.Pages.Account
                 var confirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(user);
                 if (confirmationToken != null)
                 {
-                    return Redirect(Url.PageLink("/Account/ConfirmEmail", values: new
+                    var confirmationLink = Url.PageLink("/Account/ConfirmEmail", values: new
                     {
                         userId = user.Id,
                         token = confirmationToken
-                    }) ?? string.Empty);
+                    }) ?? string.Empty;
+                    await EmailService.SendEmailAsync("tanluutrong2206@gmail.com", user.Email,
+                        "Please confirm your email",
+                        $"Please click on this link to confirm your email address: {confirmationLink}");
+                    return RedirectToPage("/Account/Login");
                 }
                 return Page();
             } else

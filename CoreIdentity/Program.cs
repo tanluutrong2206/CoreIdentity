@@ -1,4 +1,6 @@
 using CoreIdentity.Data;
+using CoreIdentity.Models;
+using CoreIdentity.Services;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +26,14 @@ services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
 
     options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedEmail = true;
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+services.Configure<SmtpSendEmailModel>(builder.Configuration.GetSection("SmtpSendEmail"));
+
+services.AddSingleton<IEmailService, EmailService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

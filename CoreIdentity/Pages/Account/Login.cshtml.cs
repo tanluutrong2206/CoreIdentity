@@ -10,6 +10,7 @@ namespace CoreIdentity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> signInManager;
 
+        [BindProperty]
         public LoginViewModel LoginViewModel { get; set; }
         public LoginModel(SignInManager<IdentityUser> signInManager)
         {
