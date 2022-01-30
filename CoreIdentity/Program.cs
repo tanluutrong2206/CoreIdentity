@@ -1,4 +1,5 @@
 using CoreIdentity.Data;
+using CoreIdentity.Data.Account;
 using CoreIdentity.Models;
 using CoreIdentity.Services;
 
@@ -14,7 +15,7 @@ services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-services.AddIdentity<IdentityUser, IdentityRole>(options =>
+services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;

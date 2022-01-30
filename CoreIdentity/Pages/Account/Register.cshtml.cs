@@ -1,3 +1,4 @@
+using CoreIdentity.Data.Account;
 using CoreIdentity.Models;
 using CoreIdentity.Services;
 
@@ -5,20 +6,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-using System.Net;
-using System.Net.Mail;
-
 namespace CoreIdentity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
         [BindProperty]
         public RegisterViewModel RegisterViewModel { get; set; }
         public IEmailService EmailService { get; }
 
-        public RegisterModel(UserManager<IdentityUser> userManager, IEmailService emailService)
+        public RegisterModel(UserManager<ApplicationUser> userManager, IEmailService emailService)
         {
             RegisterViewModel = new RegisterViewModel();
             this.userManager = userManager;
@@ -34,10 +32,12 @@ namespace CoreIdentity.Pages.Account
             {
                 return Page();
             }
-            var user = new IdentityUser
+            var user = new ApplicationUser
             {
                 UserName = RegisterViewModel.Email,
                 Email = RegisterViewModel.Email,
+                Address = RegisterViewModel.Address,
+                IdentityCard = RegisterViewModel.IdentityCard,
             };
             var result = await userManager.CreateAsync(user, RegisterViewModel.Password);
             if (result.Succeeded)
@@ -56,7 +56,8 @@ namespace CoreIdentity.Pages.Account
                     return RedirectToPage("/Account/Login");
                 }
                 return Page();
-            } else
+            }
+            else
             {
                 foreach (var item in result.Errors)
                 {

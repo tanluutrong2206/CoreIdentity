@@ -1,3 +1,5 @@
+using CoreIdentity.Data.Account;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,10 +8,10 @@ namespace CoreIdentity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         [BindProperty]
         public string Message { get; set; }
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager)
+        public ConfirmEmailModel(UserManager<ApplicationUser> userManager)
         {
             Message = string.Empty;
             this.userManager = userManager;

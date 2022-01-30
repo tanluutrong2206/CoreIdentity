@@ -1,3 +1,5 @@
+using CoreIdentity.Data.Account;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,11 +10,11 @@ namespace CoreIdentity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
         [BindProperty]
         public LoginViewModel LoginViewModel { get; set; }
-        public LoginModel(SignInManager<IdentityUser> signInManager)
+        public LoginModel(SignInManager<ApplicationUser> signInManager)
         {
             LoginViewModel = new LoginViewModel();
             this.signInManager = signInManager;
