@@ -36,6 +36,14 @@ namespace CoreIdentity.Pages.Account
                 return RedirectToPage("/Index");
             } else
             {
+                if (res.RequiresTwoFactor)
+                {
+                    return RedirectToPage("/Account/LoginTwoFactor", new
+                    {
+                        LoginViewModel.Email,
+                        LoginViewModel.RememberMe
+                    });
+                }
                 if (res.IsLockedOut)
                 {
                     ModelState.AddModelError("Login", "You are locked out");

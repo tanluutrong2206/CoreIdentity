@@ -1,0 +1,36 @@
+﻿@page
+@model CoreIdentity.Pages.Account.LoginTwoFactorModel
+@{
+}
+<h3>2FA Login</h3>
+<div class="container border p-5">
+    <form method="post">
+        <input type="hidden" asp-for="TwoFAViewModel.RememberMe" />
+
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="TwoFAViewModel.SecurityCode"></label>
+            </div>
+            <div class="col-5">
+                <input type="password" class="form-control" asp-for="TwoFAViewModel.SecurityCode" />
+                <span class="text-danger" asp-validation-for="TwoFAViewModel.SecurityCode"></span>
+            </div>
+        </div>
+        <div class="form-check mb-2 row">
+            <div class="col-2">
+                <input type="checkbox" asp-for="TwoFAViewModel.RememberClient" class="form-check-input" />
+                <label asp-for="TwoFAViewModel.RememberClient" class="form-check-label"></label>
+            </div>
+            <div class="col-5">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <input type="submit" class="btn btn-primary" value="Access" />
+            </div>
+            <div class="col-5">
+            </div>
+        </div>
+    </form>
+</div>
